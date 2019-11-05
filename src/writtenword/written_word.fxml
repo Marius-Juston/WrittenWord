@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
-<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="writtenword.Controller"
+<StackPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+  prefHeight="240.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="writtenword.Controller"
   fx:id="stackPane">
   <children>
-    <Canvas StackPane.alignment="TOP_LEFT" height="240.0" width="320.0" fx:id="canvas"/>
     <ColorPicker StackPane.alignment="BOTTOM_RIGHT" fx:id="colorChooser"/>
+    <Pane prefHeight="200.0" prefWidth="200.0" fx:id="canvas"/>
   </children>
 </StackPane>

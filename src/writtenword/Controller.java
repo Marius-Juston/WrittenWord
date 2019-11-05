@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
+import javafx.geometry.Point2D;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -13,6 +14,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
+import javafx.scene.transform.NonInvertibleTransformException;
+import javafx.scene.transform.Scale;
 
 public class Controller implements Initializable {
 
@@ -23,15 +26,14 @@ public class Controller implements Initializable {
 
 	private ArrayList<Path> paths = new ArrayList<>();
 
-	private double getActualX(MouseEvent mouseEvent) {
-		return (mouseEvent.getSceneX() - canvas.getTranslateX() - canvas.getWidth() / 2.0) / canvas.getScaleX()
-			+ canvas.getWidth() / 2.0;
-	}
+	private Point2D getActualPoint(MouseEvent mouseEvent) {
+		try {
+			return canvas.getLocalToParentTransform().inverseTransform(mouseEvent.getX(), mouseEvent.getY());
+		} catch (NonInvertibleTransformException e) {
+			e.printStackTrace();
+		}
 
-
-	private double getActualY(MouseEvent mouseEvent) {
-		return (mouseEvent.getSceneY() - canvas.getTranslateY() - canvas.getHeight() / 2.0) / canvas.getScaleY()
-			+ canvas.getHeight() / 2.0;
+		return Point2D.ZERO;
 	}
 
 	@Override
@@ -50,8 +52,10 @@ public class Controller implements Initializable {
 
 				Path path = new Path();
 				path.setStroke(colorChooser.getValue());
+
+				Point2D actualPoint = getActualPoint(mouseEvent);
 				path.getElements()
-					.add(new MoveTo(getActualX(mouseEvent), getActualY(mouseEvent)));
+					.add(new MoveTo(actualPoint.getX(), actualPoint.getY()));
 				canvas.getChildren().add(path);
 				paths.add(path);
 			}
@@ -72,17 +76,24 @@ public class Controller implements Initializable {
 					points[1] = mouseEvent.getSceneY();
 				} else {
 
-					paths.get(paths.size() - 1).getElements()
-						.add(new LineTo(getActualX(mouseEvent), getActualY(mouseEvent)));
+					Point2D point2D = getActualPoint(mouseEvent);
+					paths.get(paths.size() - 1).getElements().add(new LineTo(point2D.getX(), point2D.getY()));
 				}
 			}
 		});
 
 		stackPane.setOnScroll(event -> {
-			double scale = Math.max(canvas.getScaleX() + (event.getDeltaY() > 0 ? SCALE_FACTOR : -SCALE_FACTOR), .1);
+			double scale = 1.0 - (event.getDeltaY() > 0 ? SCALE_FACTOR : -SCALE_FACTOR);
 
-			canvas.setScaleX(scale);
-			canvas.setScaleY(scale);
+			if (event.getDeltaY() < 0 || canvas.getLocalToParentTransform().getMxx() > .1) {
+				try {
+					Point2D point2D = canvas.getLocalToParentTransform().inverseTransform(event.getX(), event.getY());
+					canvas.getTransforms().add(new Scale(scale, scale, point2D.getX(), point2D.getY()));
+				} catch (NonInvertibleTransformException e) {
+					e.printStackTrace();
+				}
+			}
+
 		});
 
 //		canvas.setOnZoom(event -> {

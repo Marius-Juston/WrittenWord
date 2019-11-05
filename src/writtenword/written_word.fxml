@@ -7,7 +7,7 @@
   prefHeight="240.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="writtenword.Controller"
   fx:id="stackPane">
   <children>
-    <ColorPicker StackPane.alignment="BOTTOM_RIGHT" fx:id="colorChooser"/>
     <Pane prefHeight="200.0" prefWidth="200.0" fx:id="canvas"/>
+    <ColorPicker StackPane.alignment="BOTTOM_RIGHT" fx:id="colorChooser"/>
   </children>
 </StackPane>

@@ -24,7 +24,6 @@ public class Controller implements Initializable {
 	private ArrayList<Path> paths = new ArrayList<>();
 
 	private double getActualX(MouseEvent mouseEvent) {
-
 		return (mouseEvent.getSceneX() - canvas.getTranslateX() - canvas.getWidth() / 2.0) / canvas.getScaleX()
 			+ canvas.getWidth() / 2.0;
 	}
@@ -33,7 +32,6 @@ public class Controller implements Initializable {
 	private double getActualY(MouseEvent mouseEvent) {
 		return (mouseEvent.getSceneY() - canvas.getTranslateY() - canvas.getHeight() / 2.0) / canvas.getScaleY()
 			+ canvas.getHeight() / 2.0;
-
 	}
 
 	@Override
@@ -85,10 +83,6 @@ public class Controller implements Initializable {
 
 			canvas.setScaleX(scale);
 			canvas.setScaleY(scale);
-
-//			event.getSceneX();
-//			event.getSceneY();
-
 		});
 
 //		canvas.setOnZoom(event -> {
@@ -97,6 +91,5 @@ public class Controller implements Initializable {
 //		});
 
 		colorChooser.setOnAction(actionEvent -> paths.get(paths.size() - 1).setStroke(colorChooser.getValue()));
-
 	}
 }

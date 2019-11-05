@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.MenuButton;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -23,6 +24,7 @@ public class Controller implements Initializable {
 	public Pane canvas;
 	public ColorPicker colorChooser;
 	public StackPane stackPane;
+	public MenuButton widgetMenu;
 
 	private ArrayList<Path> paths = new ArrayList<>();
 
@@ -36,8 +38,14 @@ public class Controller implements Initializable {
 		return Point2D.ZERO;
 	}
 
+	private void initWidgets() {
+		widgetMenu.getItems().add(new Widget());
+	}
+
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
+		initWidgets();
+
 		colorChooser.setValue(Color.BLACK);
 //		canvas.setStyle("-fx-border-color: red");
 

@@ -3,10 +3,10 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.layout.StackPane?>
-
-<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="writtenword.Controller">
+<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="writtenword.Controller"
+  fx:id="stackPane">
   <children>
-    <Canvas fx:id="canvas" height="240.0" width="320.0" />
-  <ColorPicker fx:id="colorChooser" StackPane.alignment="BOTTOM_RIGHT" />
+    <Canvas StackPane.alignment="TOP_LEFT" height="240.0" width="320.0" fx:id="canvas"/>
+    <ColorPicker StackPane.alignment="BOTTOM_RIGHT" fx:id="colorChooser"/>
   </children>
 </StackPane>

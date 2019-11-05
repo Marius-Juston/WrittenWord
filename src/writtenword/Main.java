@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class Main extends Application {
 
@@ -17,8 +16,10 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("written_word.fxml"));
 		primaryStage.setTitle("Written Word");
-		primaryStage.setScene(new Scene(root));
+		primaryStage.setScene(new Scene(root, 320, 240));
 //		primaryStage.initStyle(StageStyle.UNDECORATED);
+		primaryStage.setAlwaysOnTop(true);
+		primaryStage.setFullScreen(true);
 		primaryStage.show();
 	}
 }

@@ -1,13 +1,12 @@
 package writtenword;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
+import javafx.scene.Group;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -31,8 +30,7 @@ public class Controller implements Initializable {
 	public MenuButton widgetMenu;
 	public Pane widgetMover;
 	public HBox widgetGroup;
-
-	private ArrayList<Path> paths = new ArrayList<>();
+	public Group paths;
 
 	private Point2D getActualPoint(MouseEvent mouseEvent) {
 		try {
@@ -51,9 +49,8 @@ public class Controller implements Initializable {
 		widgetMenu.getItems().add(new Widget("Google Calendar", googleCalendar, new ImageWidget(googleCalendar)));
 		widgetMenu.getItems().add(new Widget("Google Drive", googleDrive, new ImageWidget(googleDrive)));
 
-		for (MenuItem item : widgetMenu.getItems()) {
-			item.setOnAction(event -> ((Widget) item).setupWidget(canvas));
-		}
+		widgetMenu.getItems()
+			.forEach(menuItem -> menuItem.setOnAction(event -> ((Widget) menuItem).setupWidget(canvas)));
 	}
 
 	@Override
@@ -104,7 +101,7 @@ public class Controller implements Initializable {
 					path.getElements()
 						.add(new MoveTo(actualPoint.getX(), actualPoint.getY()));
 					canvas.getChildren().add(path);
-					paths.add(path);
+					paths.getChildren().add(path);
 				}
 			}
 		);
@@ -126,7 +123,8 @@ public class Controller implements Initializable {
 					} else {
 
 						Point2D point2D = getActualPoint(mouseEvent);
-						paths.get(paths.size() - 1).getElements().add(new LineTo(point2D.getX(), point2D.getY()));
+						((Path) paths.getChildren().get(paths.getChildren().size() - 1)).getElements()
+							.add(new LineTo(point2D.getX(), point2D.getY()));
 					}
 				}
 			}
@@ -151,6 +149,7 @@ public class Controller implements Initializable {
 //			canvas.setScaleY(event.getTotalZoomFactor());
 //		});
 
-		colorChooser.setOnAction(actionEvent -> paths.get(paths.size() - 1).setStroke(colorChooser.getValue()));
+		colorChooser.setOnAction(actionEvent -> ((Path) paths.getChildren().get(paths.getChildren().size() - 1))
+			.setStroke(colorChooser.getValue()));
 	}
 }

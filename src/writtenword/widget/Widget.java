@@ -28,7 +28,7 @@ public class Widget extends MenuItem {
 	}
 
 	public void setupWidget(Pane masterNode) {
-		masterNode.getChildren().add(0, getWidgetApplication());
+		masterNode.getChildren().add(getWidgetApplication());
 
 		getWidgetApplication().getCloseButton()
 			.setOnAction(event -> masterNode.getChildren().remove(getWidgetApplication()));

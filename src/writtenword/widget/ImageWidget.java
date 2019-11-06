@@ -8,7 +8,11 @@ import javafx.scene.image.ImageView;
 public class ImageWidget extends WidgetApplication {
 
 	public ImageWidget(String url) {
-		getChildren().add(new ImageView(url));
+		ImageView imageView = new ImageView(url);
+		imageView.setPreserveRatio(true);
+		imageView.setFitHeight(200.0);
+
+		getChildren().add(imageView);
 	}
 
 	@Override

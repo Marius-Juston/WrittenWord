@@ -9,13 +9,13 @@
   prefHeight="240.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="writtenword.Controller"
   fx:id="stackPane">
   <children>
+    <Pane prefHeight="200.0" prefWidth="200.0" fx:id="canvas"/>
     <ColorPicker StackPane.alignment="BOTTOM_RIGHT" fx:id="colorChooser"/>
     <HBox fx:id="widgetGroup">
       <children>
-        <MenuButton mnemonicParsing="false" text="Widgets" fx:id="widgetMenu"/>
         <Pane style="-fx-border-color: red;" maxHeight="28.0" prefHeight="28.0" prefWidth="19.0" fx:id="widgetMover"/>
+        <MenuButton mnemonicParsing="false" text="Widgets" fx:id="widgetMenu"/>
       </children>
     </HBox>
-    <Pane prefHeight="200.0" prefWidth="200.0" fx:id="canvas"/>
   </children>
 </StackPane>

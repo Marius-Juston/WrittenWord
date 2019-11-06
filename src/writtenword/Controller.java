@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -18,6 +19,8 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.transform.NonInvertibleTransformException;
 import javafx.scene.transform.Scale;
+import writtenword.widget.ImageWidget;
+import writtenword.widget.Widget;
 
 public class Controller implements Initializable {
 
@@ -42,10 +45,15 @@ public class Controller implements Initializable {
 	}
 
 	private void initWidgets() {
-		widgetMenu.getItems().add(new Widget("Google Calendar",
-			"https://collegeinfogeek.com/wp-content/uploads/2016/08/Google_Calendar_Logo.png"));
-		widgetMenu.getItems().add(
-			new Widget("Google Drive", "https://assets.ifttt.com/images/channels/142226432/icons/on_color_large.png"));
+		String googleCalendar = "https://collegeinfogeek.com/wp-content/uploads/2016/08/Google_Calendar_Logo.png";
+		String googleDrive = "https://assets.ifttt.com/images/channels/142226432/icons/on_color_large.png";
+
+		widgetMenu.getItems().add(new Widget("Google Calendar", googleCalendar, new ImageWidget(googleCalendar)));
+		widgetMenu.getItems().add(new Widget("Google Drive", googleDrive, new ImageWidget(googleDrive)));
+
+		for (MenuItem item : widgetMenu.getItems()) {
+			item.setOnAction(event -> ((Widget) item).setupWidget(canvas));
+		}
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuButton;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -25,6 +26,8 @@ public class Controller implements Initializable {
 	public ColorPicker colorChooser;
 	public StackPane stackPane;
 	public MenuButton widgetMenu;
+	public Pane widgetMover;
+	public HBox widgetGroup;
 
 	private ArrayList<Path> paths = new ArrayList<>();
 
@@ -39,23 +42,52 @@ public class Controller implements Initializable {
 	}
 
 	private void initWidgets() {
-		widgetMenu.getItems().add(new Widget());
+		widgetMenu.getItems().add(new Widget("Google Calendar",
+			"https://collegeinfogeek.com/wp-content/uploads/2016/08/Google_Calendar_Logo.png"));
+		widgetMenu.getItems().add(
+			new Widget("Google Drive", "https://assets.ifttt.com/images/channels/142226432/icons/on_color_large.png"));
 	}
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		initWidgets();
 
+		System.out.println(widgetMenu.widthProperty());
+		System.out.println(widgetMover.widthProperty());
+
+		widgetMover.maxHeightProperty().bind(widgetMenu.heightProperty());
+		widgetGroup.maxHeightProperty().bind(widgetMenu.heightProperty());
+		double width = 19.0 + 85.0 + 2.0 / 3.0;
+
+		widgetGroup.setPrefWidth(width);
+		widgetGroup.setMaxWidth(width);
+//		widgetGroup.maxWidthProperty().bind(widgetMenu.prefWidthProperty().add(widgetMover.prefWidthProperty()));
+		widgetGroup.setStyle("-fx-border-color: green");
+
+		final double[] widgetsPoint = {0, 0};
+
+		widgetMover.setOnMousePressed(event -> {
+			widgetsPoint[0] = event.getX();
+			widgetsPoint[1] = event.getY();
+		});
+
+		widgetMover.setOnMouseDragged(event -> {
+			double x = event.getX() - widgetsPoint[0] + widgetGroup.getTranslateX();
+			double y = event.getY() - widgetsPoint[1] + widgetGroup.getTranslateY();
+
+			widgetGroup.setTranslateX(x);
+			widgetGroup.setTranslateY(y);
+		});
+
 		colorChooser.setValue(Color.BLACK);
-//		canvas.setStyle("-fx-border-color: red");
 
-		final double[] points = {0, 0};
+		final double[] canvasPoints = {0, 0};
 
-		stackPane.setOnMousePressed(mouseEvent ->
+		canvas.setOnMousePressed(mouseEvent ->
 			{
 				if (mouseEvent.getButton() == MouseButton.MIDDLE) {
-					points[0] = mouseEvent.getSceneX();
-					points[1] = mouseEvent.getSceneY();
+					canvasPoints[0] = mouseEvent.getSceneX();
+					canvasPoints[1] = mouseEvent.getSceneY();
 				}
 
 				Path path = new Path();
@@ -71,17 +103,17 @@ public class Controller implements Initializable {
 
 //		stackPane.setOnMouseReleased(event -> paths.get(paths.size() - 1).getElements().add(new ClosePath()));
 
-		stackPane.setOnMouseDragged(mouseEvent -> {
+		canvas.setOnMouseDragged(mouseEvent -> {
 			{
 				if (mouseEvent.getButton() == MouseButton.MIDDLE) {
-					double x = mouseEvent.getSceneX() - points[0];
-					double y = mouseEvent.getSceneY() - points[1];
+					double x = mouseEvent.getSceneX() - canvasPoints[0];
+					double y = mouseEvent.getSceneY() - canvasPoints[1];
 
 					canvas.setTranslateX(canvas.getTranslateX() + x);
 					canvas.setTranslateY(canvas.getTranslateY() + y);
 
-					points[0] = mouseEvent.getSceneX();
-					points[1] = mouseEvent.getSceneY();
+					canvasPoints[0] = mouseEvent.getSceneX();
+					canvasPoints[1] = mouseEvent.getSceneY();
 				} else {
 
 					Point2D point2D = getActualPoint(mouseEvent);
@@ -90,7 +122,7 @@ public class Controller implements Initializable {
 			}
 		});
 
-		stackPane.setOnScroll(event -> {
+		canvas.setOnScroll(event -> {
 			double scale = 1.0 - (event.getDeltaY() > 0 ? SCALE_FACTOR : -SCALE_FACTOR);
 
 			if (event.getDeltaY() < 0 || canvas.getLocalToParentTransform().getMxx() > .1) {

@@ -33,7 +33,7 @@ public class Controller implements Initializable {
 
 	private Point2D getActualPoint(MouseEvent mouseEvent) {
 		try {
-			return canvas.getLocalToParentTransform().inverseTransform(mouseEvent.getX(), mouseEvent.getY());
+			return canvas.getLocalToParentTransform().inverseTransform(mouseEvent.getSceneX(), mouseEvent.getSceneY());
 		} catch (NonInvertibleTransformException e) {
 			e.printStackTrace();
 		}

@@ -52,9 +52,6 @@ public class Controller implements Initializable {
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		initWidgets();
 
-		System.out.println(widgetMenu.widthProperty());
-		System.out.println(widgetMover.widthProperty());
-
 		widgetMover.maxHeightProperty().bind(widgetMenu.heightProperty());
 		widgetGroup.maxHeightProperty().bind(widgetMenu.heightProperty());
 		double width = 19.0 + 85.0 + 2.0 / 3.0;
@@ -83,46 +80,51 @@ public class Controller implements Initializable {
 
 		final double[] canvasPoints = {0, 0};
 
-		canvas.setOnMousePressed(mouseEvent ->
+		stackPane.setOnMousePressed(mouseEvent ->
 			{
-				if (mouseEvent.getButton() == MouseButton.MIDDLE) {
-					canvasPoints[0] = mouseEvent.getSceneX();
-					canvasPoints[1] = mouseEvent.getSceneY();
+				if (mouseEvent.getTarget().equals(stackPane) || mouseEvent.getTarget().equals(canvas)) {
+
+					if (mouseEvent.getButton() == MouseButton.MIDDLE) {
+						canvasPoints[0] = mouseEvent.getSceneX();
+						canvasPoints[1] = mouseEvent.getSceneY();
+					}
+
+					Path path = new Path();
+					path.setStroke(colorChooser.getValue());
+
+					Point2D actualPoint = getActualPoint(mouseEvent);
+					path.getElements()
+						.add(new MoveTo(actualPoint.getX(), actualPoint.getY()));
+					canvas.getChildren().add(path);
+					paths.add(path);
 				}
-
-				Path path = new Path();
-				path.setStroke(colorChooser.getValue());
-
-				Point2D actualPoint = getActualPoint(mouseEvent);
-				path.getElements()
-					.add(new MoveTo(actualPoint.getX(), actualPoint.getY()));
-				canvas.getChildren().add(path);
-				paths.add(path);
 			}
 		);
 
 //		stackPane.setOnMouseReleased(event -> paths.get(paths.size() - 1).getElements().add(new ClosePath()));
 
-		canvas.setOnMouseDragged(mouseEvent -> {
+		stackPane.setOnMouseDragged(mouseEvent -> {
 			{
-				if (mouseEvent.getButton() == MouseButton.MIDDLE) {
-					double x = mouseEvent.getSceneX() - canvasPoints[0];
-					double y = mouseEvent.getSceneY() - canvasPoints[1];
+				if (mouseEvent.getTarget().equals(stackPane) || mouseEvent.getTarget().equals(canvas)) {
+					if (mouseEvent.getButton() == MouseButton.MIDDLE) {
+						double x = mouseEvent.getSceneX() - canvasPoints[0];
+						double y = mouseEvent.getSceneY() - canvasPoints[1];
 
-					canvas.setTranslateX(canvas.getTranslateX() + x);
-					canvas.setTranslateY(canvas.getTranslateY() + y);
+						canvas.setTranslateX(canvas.getTranslateX() + x);
+						canvas.setTranslateY(canvas.getTranslateY() + y);
 
-					canvasPoints[0] = mouseEvent.getSceneX();
-					canvasPoints[1] = mouseEvent.getSceneY();
-				} else {
+						canvasPoints[0] = mouseEvent.getSceneX();
+						canvasPoints[1] = mouseEvent.getSceneY();
+					} else {
 
-					Point2D point2D = getActualPoint(mouseEvent);
-					paths.get(paths.size() - 1).getElements().add(new LineTo(point2D.getX(), point2D.getY()));
+						Point2D point2D = getActualPoint(mouseEvent);
+						paths.get(paths.size() - 1).getElements().add(new LineTo(point2D.getX(), point2D.getY()));
+					}
 				}
 			}
 		});
 
-		canvas.setOnScroll(event -> {
+		stackPane.setOnScroll(event -> {
 			double scale = 1.0 - (event.getDeltaY() > 0 ? SCALE_FACTOR : -SCALE_FACTOR);
 
 			if (event.getDeltaY() < 0 || canvas.getLocalToParentTransform().getMxx() > .1) {

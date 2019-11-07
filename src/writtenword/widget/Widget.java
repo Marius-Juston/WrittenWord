@@ -1,7 +1,9 @@
 package writtenword.widget;
 
+import javafx.event.EventHandler;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 /**
@@ -30,7 +32,20 @@ public class Widget extends MenuItem {
 	public void setupWidget(Pane masterNode) {
 		masterNode.getChildren().add(getWidgetApplication());
 
-		getWidgetApplication().getCloseButton()
-			.setOnAction(event -> masterNode.getChildren().remove(getWidgetApplication()));
+		EventHandler<? super MouseEvent> setOnMouseMoved = masterNode.getOnMouseMoved();
+
+		masterNode.setOnMouseMoved(event -> {
+			getWidgetApplication().setTranslateX(event.getX());
+			getWidgetApplication().setTranslateY(event.getY());
+		});
+
+		getWidgetApplication().getCloseButton().setOnMouseClicked(event -> {
+
+			masterNode.setOnMouseMoved(setOnMouseMoved);
+			getWidgetApplication().getCloseButton().setOnMousePressed(null);
+
+			getWidgetApplication().getCloseButton()
+				.setOnAction(event1 -> masterNode.getChildren().remove(getWidgetApplication()));
+		});
 	}
 }

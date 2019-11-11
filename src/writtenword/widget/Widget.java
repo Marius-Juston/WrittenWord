@@ -42,9 +42,17 @@ public class Widget extends MenuItem {
 
 		EventHandler<? super MouseEvent> setOnMouseMoved = masterNode.getOnMouseMoved();
 
+		boolean[] first = {true};
+		widgetApplication.setVisible(false);
+
 		masterNode.setOnMouseMoved(event -> {
 			widgetApplication.setTranslateX(event.getX());
 			widgetApplication.setTranslateY(event.getY());
+
+			if (first[0]) {
+				widgetApplication.setVisible(true);
+				first[0] = false;
+			}
 		});
 
 		widgetApplication.getCloseButton().setOnMouseClicked(event -> {

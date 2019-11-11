@@ -48,7 +48,7 @@ public class Controller implements Initializable {
 
 		widgetMenu.getItems().add(new Widget("Google Calendar", googleCalendar, WidgetType.IMAGE, googleCalendar));
 		widgetMenu.getItems().add(new Widget("Google Drive", googleDrive, WidgetType.IMAGE, googleDrive));
-//
+
 		widgetMenu.getItems()
 			.forEach(menuItem -> menuItem.setOnAction(event -> ((Widget) menuItem).setupWidget(canvas)));
 

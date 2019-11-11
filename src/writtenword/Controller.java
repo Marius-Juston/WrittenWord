@@ -41,7 +41,7 @@ public class Controller implements Initializable {
 
 		return Point2D.ZERO;
 	}
-
+	
 	private void initWidgets() {
 		String googleCalendar = "https://collegeinfogeek.com/wp-content/uploads/2016/08/Google_Calendar_Logo.png";
 		String googleDrive = "https://assets.ifttt.com/images/channels/142226432/icons/on_color_large.png";
@@ -51,11 +51,6 @@ public class Controller implements Initializable {
 
 		widgetMenu.getItems()
 			.forEach(menuItem -> menuItem.setOnAction(event -> ((Widget) menuItem).setupWidget(canvas)));
-	}
-
-	@Override
-	public void initialize(URL url, ResourceBundle resourceBundle) {
-		initWidgets();
 
 		widgetMover.maxHeightProperty().bind(widgetMenu.heightProperty());
 		widgetGroup.maxHeightProperty().bind(widgetMenu.heightProperty());
@@ -80,6 +75,11 @@ public class Controller implements Initializable {
 			widgetGroup.setTranslateX(x);
 			widgetGroup.setTranslateY(y);
 		});
+	}
+
+	@Override
+	public void initialize(URL url, ResourceBundle resourceBundle) {
+		initWidgets();
 
 		colorChooser.setValue(Color.BLACK);
 

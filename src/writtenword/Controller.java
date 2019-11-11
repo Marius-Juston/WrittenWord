@@ -41,7 +41,7 @@ public class Controller implements Initializable {
 
 		return Point2D.ZERO;
 	}
-	
+
 	private void initWidgets() {
 		String googleCalendar = "https://collegeinfogeek.com/wp-content/uploads/2016/08/Google_Calendar_Logo.png";
 		String googleDrive = "https://assets.ifttt.com/images/channels/142226432/icons/on_color_large.png";
@@ -92,16 +92,17 @@ public class Controller implements Initializable {
 					if (mouseEvent.getButton() == MouseButton.MIDDLE) {
 						canvasPoints[0] = mouseEvent.getSceneX();
 						canvasPoints[1] = mouseEvent.getSceneY();
+					} else {
+						Path path = new Path();
+						path.setStroke(colorChooser.getValue());
+
+						Point2D actualPoint = getActualPoint(mouseEvent);
+						path.getElements()
+							.add(new MoveTo(actualPoint.getX(), actualPoint.getY()));
+						canvas.getChildren().add(path);
+						paths.getChildren().add(path);
 					}
 
-					Path path = new Path();
-					path.setStroke(colorChooser.getValue());
-
-					Point2D actualPoint = getActualPoint(mouseEvent);
-					path.getElements()
-						.add(new MoveTo(actualPoint.getX(), actualPoint.getY()));
-					canvas.getChildren().add(path);
-					paths.getChildren().add(path);
 				}
 			}
 		);

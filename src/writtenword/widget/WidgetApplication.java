@@ -6,7 +6,7 @@ import javafx.scene.control.Button;
 /**
  * @author Marius Juston
  **/
-public abstract class WidgetApplication extends Group {
+public class WidgetApplication extends Group {
 
 	private final Button closeButton;
 
@@ -20,6 +20,4 @@ public abstract class WidgetApplication extends Group {
 	public Button getCloseButton() {
 		return closeButton;
 	}
-
-	public abstract void widgetApplication();
 }

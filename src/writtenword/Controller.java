@@ -18,8 +18,8 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.transform.NonInvertibleTransformException;
 import javafx.scene.transform.Scale;
-import writtenword.widget.ImageWidget;
 import writtenword.widget.Widget;
+import writtenword.widget.WidgetType;
 
 public class Controller implements Initializable {
 
@@ -46,9 +46,9 @@ public class Controller implements Initializable {
 		String googleCalendar = "https://collegeinfogeek.com/wp-content/uploads/2016/08/Google_Calendar_Logo.png";
 		String googleDrive = "https://assets.ifttt.com/images/channels/142226432/icons/on_color_large.png";
 
-		widgetMenu.getItems().add(new Widget("Google Calendar", googleCalendar, new ImageWidget(googleCalendar)));
-		widgetMenu.getItems().add(new Widget("Google Drive", googleDrive, new ImageWidget(googleDrive)));
-
+		widgetMenu.getItems().add(new Widget("Google Calendar", googleCalendar, WidgetType.IMAGE, googleCalendar));
+		widgetMenu.getItems().add(new Widget("Google Drive", googleDrive, WidgetType.IMAGE, googleDrive));
+//
 		widgetMenu.getItems()
 			.forEach(menuItem -> menuItem.setOnAction(event -> ((Widget) menuItem).setupWidget(canvas)));
 

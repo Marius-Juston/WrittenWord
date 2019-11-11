@@ -14,9 +14,4 @@ public class ImageWidget extends WidgetApplication {
 
 		getChildren().add(imageView);
 	}
-
-	@Override
-	public void widgetApplication() {
-
-	}
 }

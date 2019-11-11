@@ -12,40 +12,48 @@ import javafx.scene.layout.Pane;
 public class Widget extends MenuItem {
 
 	private static final double WIDTH = 100.0;
-	private final WidgetApplication widgetApplication;
+	private final WidgetType widgetType;
+	private final Object[] args;
 
-	public Widget(String name, String widgetPreviewImageUrl, WidgetApplication widgetApplication) {
+	public Widget(String name, String widgetPreviewImageUrl, WidgetType widgetType, Object... args) {
 		super(name);
-		this.widgetApplication = widgetApplication;
+		this.widgetType = widgetType;
+		this.args = args;
 
 		ImageView imageView = new ImageView(widgetPreviewImageUrl);
 		imageView.setFitWidth(WIDTH);
 		imageView.setPreserveRatio(true);
 		setGraphic(imageView);
-
 	}
 
-	public WidgetApplication getWidgetApplication() {
-		return widgetApplication;
+	public WidgetApplication getWidget() {
+		switch (widgetType) {
+			case IMAGE:
+				return new ImageWidget((String) args[0]);
+			default:
+				return new WidgetApplication();
+		}
 	}
 
 	public void setupWidget(Pane masterNode) {
-		masterNode.getChildren().add(getWidgetApplication());
+		WidgetApplication widgetApplication = getWidget();
+
+		masterNode.getChildren().add(widgetApplication);
 
 		EventHandler<? super MouseEvent> setOnMouseMoved = masterNode.getOnMouseMoved();
 
 		masterNode.setOnMouseMoved(event -> {
-			getWidgetApplication().setTranslateX(event.getX());
-			getWidgetApplication().setTranslateY(event.getY());
+			widgetApplication.setTranslateX(event.getX());
+			widgetApplication.setTranslateY(event.getY());
 		});
 
-		getWidgetApplication().getCloseButton().setOnMouseClicked(event -> {
+		widgetApplication.getCloseButton().setOnMouseClicked(event -> {
 
 			masterNode.setOnMouseMoved(setOnMouseMoved);
-			getWidgetApplication().getCloseButton().setOnMousePressed(null);
+			widgetApplication.getCloseButton().setOnMouseClicked(null);
 
-			getWidgetApplication().getCloseButton()
-				.setOnAction(event1 -> masterNode.getChildren().remove(getWidgetApplication()));
+			widgetApplication.getCloseButton()
+				.setOnAction(event1 -> masterNode.getChildren().remove(widgetApplication));
 		});
 	}
 }

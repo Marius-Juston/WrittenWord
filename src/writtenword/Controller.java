@@ -27,8 +27,10 @@ import writtenword.widget.WidgetType;
 
 public class Controller implements Initializable {
 
+	public static final double MIN_SCALE = .1;
 	private static final double SCALE_FACTOR = .1;
-	private static final long PRESS_CONSTANT = 650;
+	private static final long PAN_CONSTANT = 450;
+	private static final long ZOOM_CONSTANT = 750;
 	public Pane canvas;
 	public ColorPicker colorChooser;
 	public StackPane stackPane;
@@ -146,7 +148,7 @@ public class Controller implements Initializable {
 		stackPane.setOnScroll(event -> {
 			double scale = 1.0 - (event.getDeltaY() > 0 ? SCALE_FACTOR : -SCALE_FACTOR);
 
-			if (event.getDeltaY() < 0 || canvas.getLocalToParentTransform().getMxx() > .1) {
+			if (event.getDeltaY() < 0 || canvas.getLocalToParentTransform().getMxx() > MIN_SCALE) {
 				Point2D point2D = getActualPoint(event);
 				canvas.getTransforms().add(new Scale(scale, scale, point2D.getX(), point2D.getY()));
 			}
@@ -164,10 +166,16 @@ public class Controller implements Initializable {
 				touchStartTime[0] = System.currentTimeMillis();
 			} else if (event.getEventType().equals(TouchEvent.TOUCH_RELEASED)) {
 				currentMovementType[0] = MovementType.DRAW;
+				System.out.println(System.currentTimeMillis() - touchStartTime[0]);
 			} else {
-				if (previousEventType[0] == TouchEvent.TOUCH_STATIONARY
-					&& System.currentTimeMillis() - touchStartTime[0] > PRESS_CONSTANT) {
-					currentMovementType[0] = MovementType.PAN;
+				if (previousEventType[0] == TouchEvent.TOUCH_STATIONARY) {
+					long deltaTime = System.currentTimeMillis() - touchStartTime[0];
+
+					if (deltaTime > ZOOM_CONSTANT) {
+						currentMovementType[0] = MovementType.ZOOM;
+					} else if (deltaTime > PAN_CONSTANT) {
+						currentMovementType[0] = MovementType.PAN;
+					}
 				}
 			}
 
@@ -203,20 +211,32 @@ public class Controller implements Initializable {
 		});
 
 		stackPane.setOnTouchMoved(event -> {
-			final TouchPoint touchPoint = event.getTouchPoint();
-			if (currentMovementType[0] == MovementType.DRAW) {
-				Point2D point2D = getActualPoint(touchPoint);
-				((Path) paths.getChildren().get(paths.getChildren().size() - 1)).getElements()
-					.add(new LineTo(point2D.getX(), point2D.getY()));
-			} else if (currentMovementType[0] == MovementType.PAN) {
-				double x = touchPoint.getSceneX() - touchPoints[0];
-				double y = touchPoint.getSceneY() - touchPoints[1];
+			if (event.getTarget().equals(stackPane) || event.getTarget().equals(canvas)) {
+				final TouchPoint touchPoint = event.getTouchPoint();
+				if (currentMovementType[0] == MovementType.DRAW) {
+					Point2D point2D = getActualPoint(touchPoint);
+					if (paths.getChildren().size() > 0) {
+						((Path) paths.getChildren().get(paths.getChildren().size() - 1)).getElements()
+							.add(new LineTo(point2D.getX(), point2D.getY()));
+					}
+				} else if (currentMovementType[0] == MovementType.PAN) {
+					double x = touchPoint.getSceneX() - touchPoints[0];
+					double y = touchPoint.getSceneY() - touchPoints[1];
 
-				canvas.setTranslateX(canvas.getTranslateX() + x);
-				canvas.setTranslateY(canvas.getTranslateY() + y);
+					canvas.setTranslateX(canvas.getTranslateX() + x);
+					canvas.setTranslateY(canvas.getTranslateY() + y);
 
-				touchPoints[0] = touchPoint.getSceneX();
-				touchPoints[1] = touchPoint.getSceneY();
+					touchPoints[0] = touchPoint.getSceneX();
+					touchPoints[1] = touchPoint.getSceneY();
+				} else if (currentMovementType[0] == MovementType.ZOOM) {
+					double y = touchPoint.getSceneY() - touchPoints[1];
+
+					if (y < 0 || canvas.getLocalToParentTransform().getMxx() > MIN_SCALE) {
+						final double scale = 1 - SCALE_FACTOR * Math.signum(y);
+
+						canvas.getTransforms().add(new Scale(scale, scale, touchPoints[0], touchPoints[1]));
+					}
+				}
 			}
 		});
 	}

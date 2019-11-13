@@ -233,9 +233,9 @@ public class Controller implements Initializable {
 				} else if (currentMovementType[0] == MovementType.ZOOM) {
 					double y = touchPoint.getSceneY() - touchPoints[1];
 
-						final double scale = 1 - SCALE_FACTOR * Math.signum(y);
 					if ((y > 0 || canvas.getLocalToParentTransform().getMxx() > MIN_SCALE) && (
 						y < 0 || canvas.getLocalToParentTransform().getMxx() < MAX_SCALE)) {
+						final double scale = 1 + SCALE_FACTOR * Math.signum(y);
 
 						canvas.getTransforms().add(new Scale(scale, scale, touchPoints[0], touchPoints[1]));
 					}

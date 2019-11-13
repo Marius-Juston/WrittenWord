@@ -28,6 +28,7 @@ import writtenword.widget.WidgetType;
 public class Controller implements Initializable {
 
 	public static final double MIN_SCALE = .1;
+	public static final double MAX_SCALE = 10;
 	private static final double SCALE_FACTOR = .1;
 	private static final long PAN_CONSTANT = 450;
 	private static final long ZOOM_CONSTANT = 1000;
@@ -148,7 +149,8 @@ public class Controller implements Initializable {
 		stackPane.setOnScroll(event -> {
 			double scale = 1.0 - (event.getDeltaY() > 0 ? SCALE_FACTOR : -SCALE_FACTOR);
 
-			if (event.getDeltaY() < 0 || canvas.getLocalToParentTransform().getMxx() > MIN_SCALE) {
+			if ((event.getDeltaY() < 0 || canvas.getLocalToParentTransform().getMxx() > MIN_SCALE) && (
+				event.getDeltaY() > 0 || canvas.getLocalToParentTransform().getMxx() < MAX_SCALE)) {
 				Point2D point2D = getActualPoint(event);
 				canvas.getTransforms().add(new Scale(scale, scale, point2D.getX(), point2D.getY()));
 			}
@@ -231,8 +233,9 @@ public class Controller implements Initializable {
 				} else if (currentMovementType[0] == MovementType.ZOOM) {
 					double y = touchPoint.getSceneY() - touchPoints[1];
 
-					if (y < 0 || canvas.getLocalToParentTransform().getMxx() > MIN_SCALE) {
 						final double scale = 1 - SCALE_FACTOR * Math.signum(y);
+					if ((y > 0 || canvas.getLocalToParentTransform().getMxx() > MIN_SCALE) && (
+						y < 0 || canvas.getLocalToParentTransform().getMxx() < MAX_SCALE)) {
 
 						canvas.getTransforms().add(new Scale(scale, scale, touchPoints[0], touchPoints[1]));
 					}

@@ -28,6 +28,7 @@ import writtenword.widget.WidgetType;
 public class Controller implements Initializable {
 
 	private static final double SCALE_FACTOR = .1;
+	private static final long PRESS_CONSTANT = 1500;
 	public Pane canvas;
 	public ColorPicker colorChooser;
 	public StackPane stackPane;
@@ -93,12 +94,7 @@ public class Controller implements Initializable {
 		});
 	}
 
-	@Override
-	public void initialize(URL url, ResourceBundle resourceBundle) {
-		initWidgets();
-
-		colorChooser.setValue(Color.BLACK);
-
+	public void initMouseInterface() {
 		final double[] canvasPoints = {0, 0};
 
 		stackPane.setOnMousePressed(mouseEvent ->
@@ -123,7 +119,7 @@ public class Controller implements Initializable {
 			}
 		);
 
-//		stackPane.setOnMouseReleased(event -> paths.get(paths.size() - 1).getElements().add(new ClosePath()));
+		//		stackPane.setOnMouseReleased(event -> paths.get(paths.size() - 1).getElements().add(new ClosePath()));
 
 		stackPane.setOnMouseDragged(mouseEvent -> {
 			{
@@ -151,14 +147,68 @@ public class Controller implements Initializable {
 			double scale = 1.0 - (event.getDeltaY() > 0 ? SCALE_FACTOR : -SCALE_FACTOR);
 
 			if (event.getDeltaY() < 0 || canvas.getLocalToParentTransform().getMxx() > .1) {
-				try {
-					Point2D point2D = canvas.getLocalToParentTransform().inverseTransform(event.getX(), event.getY());
-					canvas.getTransforms().add(new Scale(scale, scale, point2D.getX(), point2D.getY()));
-				} catch (NonInvertibleTransformException e) {
-					e.printStackTrace();
+				Point2D point2D = getActualPoint(event);
+				canvas.getTransforms().add(new Scale(scale, scale, point2D.getX(), point2D.getY()));
+			}
+		});
+	}
+
+	@Override
+	public void initialize(URL url, ResourceBundle resourceBundle) {
+		initWidgets();
+		initMouseInterface();
+
+		colorChooser.setValue(Color.BLACK);
+
+		final MovementType[] currentMovementType = {MovementType.DRAW};
+
+		final long[] touchStartTime = {0};
+		final EventType[] previousEventType = new EventType[1];
+
+		stackPane.addEventHandler(TouchEvent.ANY, event -> {
+			System.out.println(event.getEventType());
+
+			if (event.getEventType().equals(TouchEvent.TOUCH_PRESSED)) {
+				touchStartTime[0] = System.currentTimeMillis();
+			} else if (event.getEventType().equals(TouchEvent.TOUCH_RELEASED)) {
+				currentMovementType[0] = MovementType.DRAW;
+			} else {
+				if (previousEventType[0] == TouchEvent.TOUCH_STATIONARY
+					&& System.currentTimeMillis() - touchStartTime[0] > PRESS_CONSTANT) {
+					currentMovementType[0] = MovementType.PAN;
 				}
 			}
 
+			previousEventType[0] = event.getEventType();
+		});
+
+		final double[] touchPoint = {0, 0};
+
+		stackPane.setOnTouchPressed(touchEvent -> {
+			if (touchEvent.getTarget().equals(stackPane) || touchEvent.getTarget().equals(canvas)) {
+				TouchPoint touchPoint1 = touchEvent.getTouchPoint();
+
+				touchPoint[0] = touchPoint1.getSceneX();
+				touchPoint[1] = touchPoint1.getSceneY();
+
+				Path path = new Path();
+				path.setStroke(colorChooser.getValue());
+
+				Point2D actualPoint = getActualPoint(touchPoint1);
+				path.getElements().add(new MoveTo(actualPoint.getX(), actualPoint.getY()));
+				canvas.getChildren().add(path);
+				paths.getChildren().add(path);
+			}
+		});
+
+		stackPane.setOnTouchMoved(event -> {
+			System.out.println(currentMovementType[0]);
+
+			if (currentMovementType[0] == MovementType.DRAW) {
+				Point2D point2D = getActualPoint(event.getTouchPoint());
+				((Path) paths.getChildren().get(paths.getChildren().size() - 1)).getElements()
+					.add(new LineTo(point2D.getX(), point2D.getY()));
+			}
 		});
 
 //		canvas.setOnZoom(event -> {
@@ -168,5 +218,9 @@ public class Controller implements Initializable {
 
 		colorChooser.setOnAction(actionEvent -> ((Path) paths.getChildren().get(paths.getChildren().size() - 1))
 			.setStroke(colorChooser.getValue()));
+	}
+
+	enum MovementType {
+		PAN, ZOOM, DRAW
 	}
 }

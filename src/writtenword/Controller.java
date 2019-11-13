@@ -30,7 +30,7 @@ public class Controller implements Initializable {
 	public static final double MIN_SCALE = .1;
 	private static final double SCALE_FACTOR = .1;
 	private static final long PAN_CONSTANT = 450;
-	private static final long ZOOM_CONSTANT = 750;
+	private static final long ZOOM_CONSTANT = 1000;
 	public Pane canvas;
 	public ColorPicker colorChooser;
 	public StackPane stackPane;

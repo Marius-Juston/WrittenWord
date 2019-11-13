@@ -2,6 +2,7 @@ package writtenword;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.EventType;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -9,6 +10,9 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuButton;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.TouchEvent;
+import javafx.scene.input.TouchPoint;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -32,14 +36,26 @@ public class Controller implements Initializable {
 	public HBox widgetGroup;
 	public Group paths;
 
-	private Point2D getActualPoint(MouseEvent mouseEvent) {
+	private Point2D getActualPoint(double x, double y) {
 		try {
-			return canvas.getLocalToParentTransform().inverseTransform(mouseEvent.getSceneX(), mouseEvent.getSceneY());
+			return canvas.getLocalToParentTransform().inverseTransform(x, y);
 		} catch (NonInvertibleTransformException e) {
 			e.printStackTrace();
 		}
 
 		return Point2D.ZERO;
+	}
+
+	private Point2D getActualPoint(MouseEvent mouseEvent) {
+		return getActualPoint(mouseEvent.getSceneX(), mouseEvent.getSceneY());
+	}
+
+	private Point2D getActualPoint(ScrollEvent scrollEvent) {
+		return getActualPoint(scrollEvent.getX(), scrollEvent.getY());
+	}
+
+	private Point2D getActualPoint(TouchPoint touchPoint) {
+		return getActualPoint(touchPoint.getSceneX(), touchPoint.getSceneY());
 	}
 
 	private void initWidgets() {

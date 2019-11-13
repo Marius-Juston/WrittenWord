@@ -147,7 +147,7 @@ public class Controller implements Initializable {
 		});
 
 		stackPane.setOnScroll(event -> {
-			double scale = 1.0 - (event.getDeltaY() > 0 ? SCALE_FACTOR : -SCALE_FACTOR);
+			double scale = 1.0 - SCALE_FACTOR * Math.signum(event.getDeltaY());
 
 			if ((event.getDeltaY() < 0 || canvas.getLocalToParentTransform().getMxx() > MIN_SCALE) && (
 				event.getDeltaY() > 0 || canvas.getLocalToParentTransform().getMxx() < MAX_SCALE)) {

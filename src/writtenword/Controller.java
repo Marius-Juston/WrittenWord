@@ -160,8 +160,6 @@ public class Controller implements Initializable {
 		final EventType[] previousEventType = new EventType[1];
 
 		stackPane.addEventHandler(TouchEvent.ANY, event -> {
-			System.out.println(event.getEventType());
-
 			if (event.getEventType().equals(TouchEvent.TOUCH_PRESSED)) {
 				touchStartTime[0] = System.currentTimeMillis();
 			} else if (event.getEventType().equals(TouchEvent.TOUCH_RELEASED)) {
@@ -176,14 +174,14 @@ public class Controller implements Initializable {
 			previousEventType[0] = event.getEventType();
 		});
 
-		final double[] touchPoint = {0, 0};
+		final double[] touchPoints = {0, 0};
 
 		stackPane.setOnTouchPressed(touchEvent -> {
 			if (touchEvent.getTarget().equals(stackPane) || touchEvent.getTarget().equals(canvas)) {
 				TouchPoint touchPoint1 = touchEvent.getTouchPoint();
 
-				touchPoint[0] = touchPoint1.getSceneX();
-				touchPoint[1] = touchPoint1.getSceneY();
+				touchPoints[0] = touchPoint1.getSceneX();
+				touchPoints[1] = touchPoint1.getSceneY();
 
 				Path path = new Path();
 				path.setStroke(colorChooser.getValue());
@@ -195,15 +193,30 @@ public class Controller implements Initializable {
 			}
 		});
 
-		stackPane.setOnTouchMoved(event -> {
-			System.out.println(currentMovementType[0]);
+		stackPane.setOnTouchStationary(touchEvent -> {
+			if (touchEvent.getTarget().equals(stackPane) || touchEvent.getTarget().equals(canvas)) {
+				TouchPoint touchPoint1 = touchEvent.getTouchPoint();
 
+				touchPoints[0] = touchPoint1.getSceneX();
+				touchPoints[1] = touchPoint1.getSceneY();
+			}
+		});
+
+		stackPane.setOnTouchMoved(event -> {
+			final TouchPoint touchPoint = event.getTouchPoint();
 			if (currentMovementType[0] == MovementType.DRAW) {
-				Point2D point2D = getActualPoint(event.getTouchPoint());
+				Point2D point2D = getActualPoint(touchPoint);
 				((Path) paths.getChildren().get(paths.getChildren().size() - 1)).getElements()
 					.add(new LineTo(point2D.getX(), point2D.getY()));
 			} else if (currentMovementType[0] == MovementType.PAN) {
-				return;
+				double x = touchPoint.getSceneX() - touchPoints[0];
+				double y = touchPoint.getSceneY() - touchPoints[1];
+
+				canvas.setTranslateX(canvas.getTranslateX() + x);
+				canvas.setTranslateY(canvas.getTranslateY() + y);
+
+				touchPoints[0] = touchPoint.getSceneX();
+				touchPoints[1] = touchPoint.getSceneY();
 			}
 		});
 	}
@@ -211,7 +224,7 @@ public class Controller implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		initWidgets();
-		initMouseInterface();
+//		initMouseInterface();
 		initTouchInterface();
 
 		colorChooser.setValue(Color.BLACK);

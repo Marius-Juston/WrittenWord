@@ -28,7 +28,7 @@ import writtenword.widget.WidgetType;
 public class Controller implements Initializable {
 
 	private static final double SCALE_FACTOR = .1;
-	private static final long PRESS_CONSTANT = 1500;
+	private static final long PRESS_CONSTANT = 650;
 	public Pane canvas;
 	public ColorPicker colorChooser;
 	public StackPane stackPane;

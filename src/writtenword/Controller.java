@@ -153,13 +153,7 @@ public class Controller implements Initializable {
 		});
 	}
 
-	@Override
-	public void initialize(URL url, ResourceBundle resourceBundle) {
-		initWidgets();
-		initMouseInterface();
-
-		colorChooser.setValue(Color.BLACK);
-
+	public void initTouchInterface() {
 		final MovementType[] currentMovementType = {MovementType.DRAW};
 
 		final long[] touchStartTime = {0};
@@ -208,8 +202,19 @@ public class Controller implements Initializable {
 				Point2D point2D = getActualPoint(event.getTouchPoint());
 				((Path) paths.getChildren().get(paths.getChildren().size() - 1)).getElements()
 					.add(new LineTo(point2D.getX(), point2D.getY()));
+			} else if (currentMovementType[0] == MovementType.PAN) {
+				return;
 			}
 		});
+	}
+
+	@Override
+	public void initialize(URL url, ResourceBundle resourceBundle) {
+		initWidgets();
+		initMouseInterface();
+		initTouchInterface();
+
+		colorChooser.setValue(Color.BLACK);
 
 //		canvas.setOnZoom(event -> {
 //			canvas.setScaleX(event.getTotalZoomFactor());

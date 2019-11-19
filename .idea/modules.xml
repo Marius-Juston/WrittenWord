@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/WrittenWord.iml" filepath="$PROJECT_DIR$/WrittenWord.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/writtenword.iml" filepath="$PROJECT_DIR$/.idea/modules/writtenword.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/writtenword.main.iml" filepath="$PROJECT_DIR$/.idea/modules/writtenword.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/writtenword.test.iml" filepath="$PROJECT_DIR$/.idea/modules/writtenword.test.iml" />
     </modules>
   </component>
 </project>

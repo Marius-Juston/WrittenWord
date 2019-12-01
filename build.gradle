@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'org.beryx.jlink' version '2.16.4'
 }
 
 mainClassName = 'writtenword.Main'
@@ -25,4 +26,10 @@ dependencies {
 javafx {
     version = "11.0.1"
     modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+jlink {
+    launcher {
+        name = 'WrittenWord'
+    }
 }

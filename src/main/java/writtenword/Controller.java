@@ -1,5 +1,6 @@
 package writtenword;
 
+import com.calendarfx.view.CalendarView;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.EventType;
@@ -66,7 +67,7 @@ public class Controller implements Initializable {
     String googleCalendar = "https://collegeinfogeek.com/wp-content/uploads/2016/08/Google_Calendar_Logo.png";
     String googleDrive = "https://assets.ifttt.com/images/channels/142226432/icons/on_color_large.png";
 
-    widgetMenu.getItems().add(new Widget("Google Calendar", googleCalendar, WidgetType.IMAGE, googleCalendar));
+    widgetMenu.getItems().add(new Widget("Calendar", googleCalendar, WidgetType.CALENDAR, googleCalendar));
     widgetMenu.getItems().add(new Widget("Google Drive", googleDrive, WidgetType.IMAGE, googleDrive));
 
     widgetMenu.getItems()

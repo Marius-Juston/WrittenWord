@@ -30,6 +30,8 @@ public class Widget extends MenuItem {
     switch (widgetType) {
       case IMAGE:
         return new ImageWidget((String) args[0]);
+      case CALENDAR:
+        return new CalendarWidget();
       default:
         return new WidgetApplication();
     }

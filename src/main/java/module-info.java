@@ -8,6 +8,7 @@ module writtenword.main {
   requires google.oauth.client.jetty;
   requires google.oauth.client.java6;
   requires google.oauth.client;
+  requires com.calendarfx.view;
 
   opens writtenword;
   opens writtenword.google;

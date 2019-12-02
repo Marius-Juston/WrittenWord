@@ -9,6 +9,7 @@ module writtenword.main {
   requires google.oauth.client.java6;
   requires google.oauth.client;
   requires com.calendarfx.view;
+  requires javafx.swing;
 
   opens writtenword;
   opens writtenword.google;

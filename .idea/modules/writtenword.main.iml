@@ -13,6 +13,7 @@
     <orderEntry type="library" name="Gradle: com.google.api-client:google-api-client:1.23.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.oauth-client:google-oauth-client-jetty:1.23.0" level="project" />
     <orderEntry type="library" name="Gradle: com.calendarfx:view:11.8.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.openjfx:javafx-swing:win:11.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.openjfx:javafx-fxml:win:11.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.openjfx:javafx-controls:win:13.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.openjfx:javafx-controls:13.0.1" level="project" />

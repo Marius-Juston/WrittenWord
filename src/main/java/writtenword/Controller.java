@@ -1,14 +1,22 @@
 package writtenword;
 
-import com.calendarfx.view.CalendarView;
+import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventType;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuButton;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -23,6 +31,7 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.transform.NonInvertibleTransformException;
 import javafx.scene.transform.Scale;
+import javax.imageio.ImageIO;
 import writtenword.widget.Widget;
 import writtenword.widget.WidgetType;
 
@@ -30,9 +39,11 @@ public class Controller implements Initializable {
 
   public static final double MIN_SCALE = .1;
   public static final double MAX_SCALE = 10;
+  public static final String IMAGE_EXTENSION = "png";
   private static final double SCALE_FACTOR = .1;
   private static final long PAN_CONSTANT = 450;
   private static final long ZOOM_CONSTANT = 1000;
+  final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
   public Pane canvas;
   public ColorPicker colorChooser;
   public StackPane stackPane;
@@ -147,6 +158,8 @@ public class Controller implements Initializable {
       }
     });
 
+    stackPane.setOnMouseReleased(event -> saveImage(canvas));
+
     stackPane.setOnScroll(event -> {
       double scale = 1.0 - SCALE_FACTOR * Math.signum(event.getDeltaY());
 
@@ -245,11 +258,26 @@ public class Controller implements Initializable {
     });
   }
 
+  public void saveImage(Node node) {
+    final SnapshotParameters snapshotParameters = new SnapshotParameters();
+    WritableImage writableImage = node.snapshot(snapshotParameters, null);
+    final BufferedImage bufferedImage = SwingFXUtils.fromFXImage(writableImage, null);
+
+    String string = System.currentTimeMillis() + "." + IMAGE_EXTENSION;
+    System.out.println(string);
+
+    try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(string))) {
+      ImageIO.write(bufferedImage, IMAGE_EXTENSION, bufferedOutputStream);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
     initWidgets();
-//		initMouseInterface();
-    initTouchInterface();
+    initMouseInterface();
+//    initTouchInterface();
 
     colorChooser.setValue(Color.BLACK);
 

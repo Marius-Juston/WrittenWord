@@ -11,57 +11,57 @@ import javafx.scene.layout.Pane;
  **/
 public class Widget extends MenuItem {
 
-	private static final double WIDTH = 100.0;
-	private final WidgetType widgetType;
-	private final Object[] args;
+  private static final double WIDTH = 100.0;
+  private final WidgetType widgetType;
+  private final Object[] args;
 
-	public Widget(String name, String widgetPreviewImageUrl, WidgetType widgetType, Object... args) {
-		super(name);
-		this.widgetType = widgetType;
-		this.args = args;
+  public Widget(String name, String widgetPreviewImageUrl, WidgetType widgetType, Object... args) {
+    super(name);
+    this.widgetType = widgetType;
+    this.args = args;
 
-		ImageView imageView = new ImageView(widgetPreviewImageUrl);
-		imageView.setFitWidth(WIDTH);
-		imageView.setPreserveRatio(true);
-		setGraphic(imageView);
-	}
+    ImageView imageView = new ImageView(widgetPreviewImageUrl);
+    imageView.setFitWidth(WIDTH);
+    imageView.setPreserveRatio(true);
+    setGraphic(imageView);
+  }
 
-	public WidgetApplication getWidget() {
-		switch (widgetType) {
-			case IMAGE:
-				return new ImageWidget((String) args[0]);
-			default:
-				return new WidgetApplication();
-		}
-	}
+  public WidgetApplication getWidget() {
+    switch (widgetType) {
+      case IMAGE:
+        return new ImageWidget((String) args[0]);
+      default:
+        return new WidgetApplication();
+    }
+  }
 
-	public void setupWidget(Pane masterNode) {
-		WidgetApplication widgetApplication = getWidget();
+  public void setupWidget(Pane masterNode) {
+    WidgetApplication widgetApplication = getWidget();
 
-		masterNode.getChildren().add(widgetApplication);
+    masterNode.getChildren().add(widgetApplication);
 
-		EventHandler<? super MouseEvent> setOnMouseMoved = masterNode.getOnMouseMoved();
+    EventHandler<? super MouseEvent> setOnMouseMoved = masterNode.getOnMouseMoved();
 
-		boolean[] first = {true};
-		widgetApplication.setVisible(false);
+    boolean[] first = {true};
+    widgetApplication.setVisible(false);
 
-		masterNode.setOnMouseMoved(event -> {
-			widgetApplication.setTranslateX(event.getX());
-			widgetApplication.setTranslateY(event.getY());
+    masterNode.setOnMouseMoved(event -> {
+      widgetApplication.setTranslateX(event.getX());
+      widgetApplication.setTranslateY(event.getY());
 
-			if (first[0]) {
-				widgetApplication.setVisible(true);
-				first[0] = false;
-			}
-		});
+      if (first[0]) {
+        widgetApplication.setVisible(true);
+        first[0] = false;
+      }
+    });
 
-		widgetApplication.getCloseButton().setOnMouseClicked(event -> {
+    widgetApplication.getCloseButton().setOnMouseClicked(event -> {
 
-			masterNode.setOnMouseMoved(setOnMouseMoved);
-			widgetApplication.getCloseButton().setOnMouseClicked(null);
+      masterNode.setOnMouseMoved(setOnMouseMoved);
+      widgetApplication.getCloseButton().setOnMouseClicked(null);
 
-			widgetApplication.getCloseButton()
-				.setOnAction(event1 -> masterNode.getChildren().remove(widgetApplication));
-		});
-	}
+      widgetApplication.getCloseButton()
+          .setOnAction(event1 -> masterNode.getChildren().remove(widgetApplication));
+    });
+  }
 }

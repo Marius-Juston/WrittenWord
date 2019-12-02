@@ -8,16 +8,16 @@ import javafx.scene.control.Button;
  **/
 public class WidgetApplication extends Group {
 
-	private final Button closeButton;
+  private final Button closeButton;
 
 
-	public WidgetApplication() {
-		closeButton = new Button("x");
+  public WidgetApplication() {
+    closeButton = new Button("x");
 
-		getChildren().add(closeButton);
-	}
+    getChildren().add(closeButton);
+  }
 
-	public Button getCloseButton() {
-		return closeButton;
-	}
+  public Button getCloseButton() {
+    return closeButton;
+  }
 }

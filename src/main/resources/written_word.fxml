@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.Group?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
-<StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-  prefHeight="240.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="writtenword.Controller">
+
+<StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="320.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="writtenword.Controller">
   <children>
     <Pane fx:id="canvas" prefHeight="200.0" prefWidth="200.0">
       <children>
-        <Group fx:id="paths"/>
+        <Group fx:id="paths" />
       </children>
     </Pane>
-    <ColorPicker fx:id="colorChooser" StackPane.alignment="BOTTOM_RIGHT"/>
+    <ColorPicker fx:id="colorChooser" StackPane.alignment="BOTTOM_RIGHT" />
     <HBox fx:id="widgetGroup">
       <children>
-        <Pane fx:id="widgetMover" maxHeight="28.0" prefHeight="28.0" prefWidth="19.0" style="-fx-border-color: red;"/>
-        <MenuButton fx:id="widgetMenu" mnemonicParsing="false" text="Widgets"/>
+        <Pane fx:id="widgetMover" maxHeight="28.0" prefHeight="28.0" prefWidth="19.0" style="-fx-border-color: red;" />
+        <MenuButton fx:id="widgetMenu" mnemonicParsing="false" text="Widgets" />
       </children>
     </HBox>
   </children>

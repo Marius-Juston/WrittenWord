@@ -181,6 +181,7 @@ public class Controller implements Initializable {
       } else if (event.getEventType().equals(TouchEvent.TOUCH_RELEASED)) {
         currentMovementType[0] = MovementType.DRAW;
         System.out.println(System.currentTimeMillis() - touchStartTime[0]);
+        saveImage(canvas);
       } else {
         if (previousEventType[0] == TouchEvent.TOUCH_STATIONARY) {
           long deltaTime = System.currentTimeMillis() - touchStartTime[0];

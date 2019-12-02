@@ -5,7 +5,6 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventType;
@@ -43,7 +42,6 @@ public class Controller implements Initializable {
   private static final double SCALE_FACTOR = .1;
   private static final long PAN_CONSTANT = 450;
   private static final long ZOOM_CONSTANT = 1000;
-  final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
   public Pane canvas;
   public ColorPicker colorChooser;
   public StackPane stackPane;

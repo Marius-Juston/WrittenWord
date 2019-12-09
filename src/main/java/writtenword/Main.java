@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import writtenword.google.Photos;
 
 public class Main extends Application {
 
@@ -15,6 +16,7 @@ public class Main extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
+    Photos.getInstance();
     URL resource = getClass().getResource("/written_word.fxml");
     Parent root = FXMLLoader.load(resource);
     primaryStage.setTitle("Written Word");

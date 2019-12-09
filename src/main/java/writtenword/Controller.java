@@ -5,6 +5,8 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventType;
@@ -262,7 +264,7 @@ public class Controller implements Initializable {
     WritableImage writableImage = node.snapshot(snapshotParameters, null);
     final BufferedImage bufferedImage = SwingFXUtils.fromFXImage(writableImage, null);
 
-    String string = System.currentTimeMillis() + "." + IMAGE_EXTENSION;
+    String string = imageDirectory + System.currentTimeMillis() + "." + IMAGE_EXTENSION;
     System.out.println(string);
 
     try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(string))) {
@@ -272,10 +274,19 @@ public class Controller implements Initializable {
     }
   }
 
+  String imageDirectory = System.getProperty("user.home") + "/Desktop/WrittenWord/";
+
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
     initWidgets();
     initMouseInterface();
+
+    try {
+      Files.createDirectories(Paths.get(imageDirectory));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
 //    initTouchInterface();
 
     colorChooser.setValue(Color.BLACK);

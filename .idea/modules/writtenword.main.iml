@@ -9,42 +9,25 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: com.google.apis:google-api-services-calendar:v3-rev401-1.25.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.api-client:google-api-client:1.25.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.oauth-client:google-oauth-client-jetty:1.23.0" level="project" />
     <orderEntry type="library" name="Gradle: com.calendarfx:view:11.8.3" level="project" />
     <orderEntry type="library" name="Gradle: org.openjfx:javafx-fxml:win:11.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.openjfx:javafx-swing:win:11.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.openjfx:javafx-controls:win:13.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.openjfx:javafx-controls:13.0.1" level="project" />
-    <orderEntry type="library" name="Gradle: org.openjfx:javafx-swing:win:11.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.openjfx:javafx-graphics:win:13.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.openjfx:javafx-graphics:13.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.openjfx:javafx-base:win:13.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.openjfx:javafx-base:13.0.1" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.oauth-client:google-oauth-client-java6:1.23.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.oauth-client:google-oauth-client:1.25.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.http-client:google-http-client-jackson2:1.25.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.mortbay.jetty:jetty:6.1.26" level="project" />
     <orderEntry type="library" name="Gradle: org.kordamp.ikonli:ikonli-javafx:11.3.4" level="project" />
     <orderEntry type="library" name="Gradle: org.kordamp.ikonli:ikonli-fontawesome-pack:11.3.4" level="project" />
     <orderEntry type="library" name="Gradle: org.mnode.ical4j:ical4j:3.0.10" level="project" />
     <orderEntry type="library" name="Gradle: org.controlsfx:controlsfx:11.0.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.mortbay.jetty:jetty-util:6.1.26" level="project" />
-    <orderEntry type="library" name="Gradle: org.mortbay.jetty:servlet-api:2.5-20081211" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.guava:guava:20.0" level="project" />
     <orderEntry type="library" name="Gradle: org.kordamp.ikonli:ikonli-core:11.3.4" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.25" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.http-client:google-http-client:1.25.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpclient:4.5.5" level="project" />
     <orderEntry type="library" name="Gradle: commons-codec:commons-codec:1.11" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.commons:commons-lang3:3.8.1" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.commons:commons-collections4:4.1" level="project" />
     <orderEntry type="library" name="Gradle: com.sun.mail:javax.mail:1.6.2" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.code.findbugs:jsr305:3.0.2" level="project" />
-    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.6" level="project" />
     <orderEntry type="library" name="Gradle: javax.activation:activation:1.1" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.j2objc:j2objc-annotations:1.1" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpcore:4.4.9" level="project" />
-    <orderEntry type="library" name="Gradle: commons-logging:commons-logging:1.2" level="project" />
   </component>
 </module>
